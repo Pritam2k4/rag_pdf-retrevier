@@ -3,23 +3,20 @@ fastapi
 uvicorn
 python-multipart
 
-# LangChain and AI
+# LangChain
 langchain
 langchain-community
-langchain-openai
-langchain-core
 langchain-text-splitters
-openai
+langchain-groq
+
+# Embeddings and Vector Store (Hugging Face + FAISS)
+sentence-transformers
+faiss-cpu
 
 # Document processing
 pypdf
 python-docx
-docx2txt
 
 # Utilities
 python-dotenv
 numpy
-scikit-learn
-
-# Note: ChromaDB not included due to Python 3.14 compatibility issues
-# Using a simple in-memory vector store instead
