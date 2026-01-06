@@ -286,9 +286,34 @@ class RAGEngine:
         # Retrieve relevant documents using TF-IDF (FREE!)
         relevant_docs = self.vector_store.similarity_search(question, k=k)
         
+        # If no documents or no relevant content, respond as friendly assistant
         if not relevant_docs:
+            # Use LLM to respond conversationally without document context
+            chat_prompt = ChatPromptTemplate.from_template("""You are Sunjos, a cute and friendly AI assistant~ ✿
+You help users with their documents, but right now no documents seem relevant to their message.
+
+Respond in a friendly, cute way. Use occasional emojis like ✿, ♡, ✨.
+If they're greeting you, greet them back warmly!
+If they're asking a question, politely let them know you'd need some documents to help answer, and encourage them to upload some.
+Keep responses concise and sweet~
+
+User message: {question}
+
+Your response:""")
+            
+            chain = chat_prompt | self.llm | StrOutputParser()
+            answer = chain.invoke({"question": question})
+            
+            # Add to conversation history
+            self.conversation_history.append({
+                "question": question,
+                "answer": answer,
+                "sources": [],
+                "timestamp": datetime.now().isoformat()
+            })
+            
             return {
-                "answer": "I couldn't find any relevant information in your documents to answer this question~ 💭 Try uploading more documents or rephrasing your question! ✨",
+                "answer": answer,
                 "sources": [],
                 "has_context": False
             }
