@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sunjos - Your Cute Knowledge Assistant</title>
+    <meta name="description"
+        content="Ask questions about your documents and get accurate answers with source citations.">
+
+    <!-- Fonts - Cute girl font (Quicksand) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="app" id="app">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <span class="logo-icon animated-logo">✿</span>
+                    <span class="logo-text"><span class="logo-s">S</span>unjos</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle sidebar">
+                    <span class="icon-menu"></span>
+                </button>
+            </div>
+
+            <!-- Documents Section -->
+            <div class="sidebar-section">
+                <div class="section-header">
+                    <span>Documents</span>
+                    <span class="doc-count" id="docCount">0</span>
+                </div>
+                <div class="documents-list" id="documentsList">
+                    <div class="empty-state">
+                        <span class="empty-icon">📄</span>
+                        <span>No documents yet</span>
+                    </div>
+                </div>
+                <div class="upload-zone" id="uploadZone">
+                    <input type="file" id="fileInput" accept=".pdf,.docx,.txt,.md" multiple hidden>
+                    <button class="upload-btn" id="uploadBtn">
+                        <span class="icon-plus">+</span>
+                        <span>Add files</span>
+                    </button>
+                    <p class="upload-hint">or drag & drop ✨</p>
+                </div>
+            </div>
+
+            <!-- History Section -->
+            <div class="sidebar-section history-section">
+                <div class="section-header">
+                    <span>History</span>
+                    <button class="clear-history-btn" id="clearHistoryBtn" aria-label="Clear history">
+                        <span class="icon-trash"></span>
+                    </button>
+                </div>
+                <div class="history-list" id="historyList">
+                    <div class="empty-state">
+                        <span>No conversations yet</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="main-header">
+                <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Open menu">
+                    <span class="icon-menu"></span>
+                </button>
+                <div class="header-spacer"></div>
+                <div class="header-actions">
+                    <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                        <span class="icon-sun" id="themeIconLight">☀</span>
+                        <span class="icon-moon" id="themeIconDark">☾</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Chat Area -->
+            <div class="chat-container" id="chatContainer">
+                <!-- Welcome State -->
+                <div class="welcome-screen" id="welcomeScreen">
+                    <div class="welcome-icon animated-bounce">✿</div>
+                    <h1 class="welcome-title"><span class="logo-s">S</span>unjos</h1>
+                    <p class="welcome-subtitle">Your cute knowledge assistant~ ♡</p>
+                    <p class="welcome-description">
+                        Upload documents and ask me anything! I'll find the answers for you~ ✨
+                    </p>
+                    <div class="welcome-features">
+                        <div class="feature">
+                            <span class="feature-icon">📄</span>
+                            <span>PDF, DOCX, TXT</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">🔍</span>
+                            <span>Smart search</span>
+                        </div>
+                        <div class="feature">
+                            <span class="feature-icon">💕</span>
+                            <span>With sources</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Messages -->
+                <div class="messages" id="messages"></div>
+            </div>
+
+            <!-- Input Area -->
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea id="questionInput" class="question-input" placeholder="Ask me anything~ ✿" rows="1"
+                        aria-label="Your question"></textarea>
+                    <button class="send-btn" id="sendBtn" aria-label="Send message" disabled>
+                        <span class="icon-send">♡</span>
+                    </button>
+                </div>
+                <p class="input-hint">Press Enter to send, Shift+Enter for new line ♪</p>
+            </div>
+        </main>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay" hidden>
+        <div class="loading-spinner"></div>
+        <p class="loading-text" id="loadingText">Working on it~ ✨</p>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+# FastAPI and server
+fastapi
+uvicorn
+python-multipart
+
+# LangChain and AI
+langchain
+langchain-community
+langchain-openai
+langchain-core
+langchain-text-splitters
+openai
+
+# Document processing
+pypdf
+python-docx
+docx2txt
+
+# Utilities
+python-dotenv
+numpy
+scikit-learn
+
+# Note: ChromaDB not included due to Python 3.14 compatibility issues
+# Using a simple in-memory vector store instead
