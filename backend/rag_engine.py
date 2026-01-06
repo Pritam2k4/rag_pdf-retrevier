@@ -71,10 +71,19 @@ class SimpleVectorStore:
         # Calculate cosine similarity
         similarities = cosine_similarity(query_vec, self.tfidf_matrix)[0]
         
-        # Get top k indices
+        # Get top k indices sorted by similarity
         top_k_indices = np.argsort(similarities)[-k:][::-1]
         
-        return [self.documents[i] for i in top_k_indices if similarities[i] > 0.01]
+        # Get documents with any similarity > 0
+        results = [self.documents[i] for i in top_k_indices if similarities[i] > 0]
+        
+        # If no good matches but user has documents, return first k chunks anyway
+        # This helps with generic queries like "summarize the pdf"
+        if not results and len(self.documents) > 0:
+            # Return first k documents as fallback
+            results = self.documents[:min(k, len(self.documents))]
+        
+        return results
     
     def get(self, where: Dict = None) -> Dict:
         """Get documents matching filter"""
