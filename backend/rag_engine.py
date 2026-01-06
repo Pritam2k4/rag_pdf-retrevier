@@ -305,10 +305,30 @@ class RAGEngine:
     def query(self, question: str, k: int = 4) -> Dict:
         """Query the knowledge base and get an answer with sources"""
         
-        # Retrieve relevant documents using semantic search
-        relevant_docs = self.vector_store.similarity_search(question, k=k)
+        # Check if user is asking for summarization or generic document queries
+        question_lower = question.lower()
+        is_summarization_request = any(word in question_lower for word in [
+            'summarize', 'summary', 'summarise', 'overview', 'about',
+            'what is', 'tell me', 'explain', 'describe',
+            'my pdf', 'my document', 'the document', 'the pdf', 'uploaded'
+        ])
         
-        # If no documents found, respond conversationally
+        # Get all available documents
+        all_docs = self.vector_store.get_all_documents()
+        
+        # If user has documents and asks generic/summarization question
+        if is_summarization_request and all_docs:
+            # Use more chunks for summarization
+            relevant_docs = all_docs[:min(8, len(all_docs))]
+        else:
+            # Normal semantic search
+            relevant_docs = self.vector_store.similarity_search(question, k=k)
+            
+            # Fallback: if no matches but user has docs, use first few chunks
+            if not relevant_docs and all_docs:
+                relevant_docs = all_docs[:min(k, len(all_docs))]
+        
+        # If still no documents, respond conversationally
         if not relevant_docs:
             chat_prompt = ChatPromptTemplate.from_template("""You are Sunjos, a warm and friendly AI companion.
 
